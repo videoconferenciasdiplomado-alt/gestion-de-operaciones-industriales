@@ -1,0 +1,1560 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y objetivo general</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación y enfoque de la semana</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Saludo inicial y organización de la clase: Indicación de consultas por chat. Inicio de la segunda parte del módulo 17.</div>
+                  <div class="content-text">Temas centrales a tratar en la semana: Calidad y mejora continua como pilares de optimización. Implementación de ISO 9001 y herramientas estratégicas.</div>
+                  <div class="content-text">Propósito docente: Resumir múltiples metodologías para entender cuándo y cómo aplicarlas. Enfocar las dos primeras sesiones en calidad y mejora continua.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=382" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:22)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Cierre de la sesión y próximos pasos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Resumen docente y materiales complementarios.</div>
+                  <div class="content-text">Profesor destaca haber sido resumido y explícito; se dejarán indicadores y material de apoyo para consulta.</div>
+                  <div class="content-text">Logística y continuidad: Enlace de la grabación y contactos para consultas serán compartidos. Próxima sesión programada y despedida final con agradecimientos y cierre de la clase.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=7764" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:09:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Fundamentos de gestión de calidad y mejora continua</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Principios y necesidad de calidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación entre calidad, estandarización y continuidad del negocio: Sin calidad no hay mejora continua ni estandarización. Calidad como requisito para un negocio exitoso.</div>
+                  <div class="content-text">Clientes y lotes productivos: Satisfacción del cliente interno y externo. Trabajo por lotes y necesidad de análisis por lote.</div>
+                  <div class="content-text">Planificación y controles: Planear, identificar negocio, seleccionar estrategia y establecer controles. Importancia del feedback y la participación de todos los involucrados.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=444" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:24)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Requisitos para implementar mejora continua</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pasos recomendados al inicio de un proyecto de mejora: Planificar, retroalimentar, definir responsables y medir resultados. Tomar "foto antes/después" con indicadores periódicos (15 días o 1 mes).</div>
+                  <div class="content-text">Documentación y estandarización: Definir y documentar procesos (DOP) detallados y secuenciados. Mantener ejemplos de procesos parecidos para adaptación.</div>
+                  <div class="content-text">Sostenibilidad y rapidez de respuesta: Ver la calidad como actividad continua y sostenible. Detectar y levantar incidentes rápidamente sin esperar órdenes.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=671" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:11)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Herramientas de mejora continua y su aplicación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Ciclo PDCA / Deming</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Descripción del ciclo Planificar-Hacer-Verificar-Actuar: Planificar: definir acciones y dirección. Hacer: ejecutar según plan. Verificar: analizar resultados contra especificaciones. Actuar: implementar mejoras y estandarizar.</div>
+                  <div class="content-text">Aplicaciones prácticas: Auditorías, implementaciones ISO 9001/14001/45000, proyectos Lean. Integración con diagramas Gantt para planificación temporal.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=1035" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:15)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Kaizen y balanceo de líneas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Concepto y objetivos de Kaizen: Cambio continuo para beneficio colectivo e individual. Enfoque en eliminar muda, mura y tensión en trabajo.</div>
+                  <div class="content-text">Balanceo de línea aplicado a Kaizen: Tomar hojas de tiempos para medir operaciones y demoras. Clasificar operarios según tiempos promedio para asignación de líneas. Mantener cargas de trabajo dentro de un margen (75–80%) para reducir riesgo.</div>
+                  <div class="content-text">Recomendaciones prácticas: Empezar con balanceo básico (personas/minutos) y desarrollar criterio propio. Evitar sobrecargar la planta (riesgo al trabajar por encima de 85–90%). Programar una "carga consciente" semanal para nivelar y evitar sobrecarga crónica.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=1334" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:14)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">SMED (cambio rápido de herramienta/molde)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y objetivo: Reducir tiempos de cambio transformando operaciones internas en externas. Aplicación en talleres y producción para acelerar entrega y reducir esperas.</div>
+                  <div class="content-text">Componentes y ejemplos: Identificar operaciones internas (máquina parada) y externas (máquina en marcha). Programar mantenimientos y cambios durante ventanas productivas o paradas planificadas.</div>
+                  <div class="content-text">Beneficios y consideraciones: Mayor flexibilidad, reducción de stock y menores tiempos de espera. Requiere documentación, planificación y posible inversión inicial.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=2461" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.4</span>
+                  <span class="subsection-title">TPM, 5S y otras herramientas vinculadas a Kaizen</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación entre TPM, 5S, Justo a Tiempo y Kaizen: 5S como base para orden y limpieza; TPM para mantenimiento productivo total. Justo a Tiempo para reducir inventarios y tiempos muertos.</div>
+                  <div class="content-text">Aplicación conjunta: Kaizen se usa en áreas específicas donde TPM o 5S requieren mejora puntual. Ejemplos de acciones: reubicar estaciones, cambiar secuencia de montaje, agregar operarios.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=1433" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:23:53)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.5</span>
+                  <span class="subsection-title">Seis Sigma y DMAIC</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Concepto y niveles sigma: Niveles 1 a 6 sigma conectados con DPO (defectos por millón de oportunidades). Seis Sigma busca minimizar defectos; 6σ ≈ 3.4 defectos por millón.</div>
+                  <div class="content-text">Principios y criterios organizacionales: Liderazgo comprometido, estructura directiva y formación (cinturones: amarillo, verde, negro). Orientación a cliente, uso de datos y metodología robusta.</div>
+                  <div class="content-text">Proceso DMAIC: Definir: concretar objetivo y participantes. Medir: cuantificar desempeño y defectos. Analizar: identificar causas reales y puntos críticos. Mejorar: diseñar soluciones con inversión mínima necesaria. Controlar: estandarizar mejoras y seguimiento.</div>
+                  <div class="content-text">Recomendación de especialización: Capacitar equipos productivos en Six Sigma para apropiación de procesos y objetivos realistas.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=2954" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:49:14)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Lean Manufacturing: evolución y principios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Lean Manufacturing y su evolución</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Origen e historia breve: Desarrollo postguerra en Japón y evolución con Toyota para producir con recursos limitados. Difusión global: empresas copiaron el modelo para reducir costos y desperdicios.</div>
+                  <div class="content-text">Filosofía y objetivos: Eliminar despilfarros, mejorar calidad y reducir tiempo de producción. Enfoque medible y sistémico orientado a la voz del cliente.</div>
+                  <div class="content-text">Principios y herramientas asociadas: 5S, control visual, células, flujos FIFO, Heijunka, Andon, Jidoka, autonomatización. Reconocimiento de siete desperdicios clásicos y propuesta de un octavo: subutilización del potencial humano.</div>
+                  <div class="content-text">Futuro y relación con Industria 4.0: IA y fábricas inteligentes integran y automatizan muchos elementos Lean; la IA puede aplicar optimizaciones, pero la filosofía y la adaptación humana siguen siendo necesarias. Lean se mantiene útil en sectores textiles, curtiembres y educativos, aunque su implementación cambia con nuevas tecnologías.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=4096" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:16)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Principios complementarios de Lean</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Desperdicios clave a eliminar: Sobreproducción, tiempo de espera, transporte, exceso de procesamiento, inventarios, movimientos y defectos. Potencial humano subutilizado como octavo desperdicio en evaluación.</div>
+                  <div class="content-text">Principios de cero defectos y Jidoka: No aceptar ni pasar defectos a la siguiente operación. Yidoka/Jidoka obliga a detener y corregir la causa al detectar anomalías.</div>
+                  <div class="content-text">Nivelación y equilibrio (Heijunka, Mura, Muri): Heijunka busca producción equilibrada para reducir variabilidad (mura) y sobrecarga (muri). Evitar sobrecarga en personas y materiales para prevenir desgaste, defectos y riesgos operativos.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=4533" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:15:33)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Casos prácticos, hojas de tiempos y ejemplos de implementación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Uso de hojas de tiempos y layout de estación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes de una hoja de tiempos: Fecha, tipo de línea, tipo de estación, descripción de actividades y múltiples mediciones temporales. Registro de observaciones (p. ej. piezas no inspeccionadas, defectos detectados).</div>
+                  <div class="content-text">Interpretación y decisiones operativas: Promedios de tiempos por operario para ubicar personas en líneas según productividad. Detección de variabilidades y operaciones lentas para reubicar o eliminar pasos.</div>
+                  <div class="content-text">Frecuencia y método de toma: Tomar mediciones aleatorias en la mañana, 1–3 veces; recomendación de 2 tomas rápidas (~20 minutos). Usar los datos para planificar la secuencia diaria y balanceo.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=1551" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:25:51)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Identificación y tratamiento de cuellos de botella</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Detección en balanceos y Kaizen: Localizar estaciones con tiempos excesivos (p. ej. mesa 2) y priorizarlas.</div>
+                  <div class="content-text">Estrategias para eliminar cuellos de botella: Levantar la restricción aumentando capacidad o duplicando operaciones similares. Reasignar operaciones largas a segundas operaciones disponibles para evitar búsquedas costosas.</div>
+                  <div class="content-text">Resultado esperado: Mejor flujo, menor tiempo de espera y mejor capacidad de planta.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=2311" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:31)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Herramientas prácticas de análisis y resolución</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cinco porqués: Técnica para llegar a la causa raíz con 3–5 niveles de pregunta; evitar excederse para no desnaturalizar el análisis. Ejemplo: derrame de aceite → revisar máquina → empaque desgastado → empaques de baja calidad → cambiar proveedor/política de compras.</div>
+                  <div class="content-text">Diagrama de Ishikawa (Shikawa): Identifica causas agrupadas (mano de obra, métodos, máquinas, materiales, medio ambiente) y se integra con otras herramientas.</div>
+                  <div class="content-text">Almacenamiento en punto de uso y control visual: Mantener materias primas, piezas y herramientas en el área de trabajo para reducir búsquedas y tiempos muertos. Establecer sistemas visuales y reportes inmediatos cuando un elemento está defectuoso o no disponible.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=5616" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:36)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Consideraciones operativas, cultura y sostenibilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Realidad de la mejora continua en empresas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mejoras pequeñas y sostenidas son más aceptables que cambios costosos inmediatos.</div>
+                  <div class="content-text">Ciclo PDCA y DMAIC como marcos complementarios; combinación de herramientas según caso.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=3300" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Capacitación, empoderamiento y liderazgo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Formación y empoderamiento: Capacitar operarios para tomar decisiones y resolver problemas; pedir pruebas e informes como soporte. Empoderamiento acelera respuestas y reduce dependencias de aprobación constante.</div>
+                  <div class="content-text">Cultura y sostenibilidad de herramientas: Muchas empresas aplican herramientas sólo para auditorías; menos del 20% las mantiene de forma sostenida. Incentivos y compromiso gerencial son clave para permanencia.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=5777" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:17)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Sostenibilidad y producción ecoamigable</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Producción ecológica y control de emisiones: Minimizar residuos y emisiones, seleccionar materias primas reciclables y procesos ecoamigables.</div>
+                  <div class="content-text">Regulación y responsabilidad: Controles ambientales más estrictos y multas; la cadena de valor debe incorporar criterios de salud y medioambiente.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6140" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:42:20)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Cadena de valor, flujo y planificación a medio-largo plazo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Mapeo de la cadena de valor y flujo de valor</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Propósito y alcance: Representación gráfica de actividades que generan valor para el cliente; incluye seguridad, medioambiente, ensamblaje y vida útil. Valorar material, transporte y servicios en el flujo.</div>
+                  <div class="content-text">Implementación y horizonte temporal: Permite diseñar objetivos a medio-largo plazo; implementación típica ~12 meses para cambios integrales. Incorporar logística inversa e información para retroalimentación de proveedores y clientes.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6809" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:29)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Sistemas pull y nivelación de producción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Kanban / sistema pull (Keyunka): Tarjetas o señales que controlan producción con lotes pequeños; útil en productos de demanda variable.</div>
+                  <div class="content-text">FIFO y flujo continuo: Primero en entrar, primero en salir; mantener flujo y minimizar stock.</div>
+                  <div class="content-text">Supermercado y gestión de variaciones: Inventario controlado para absorber variaciones de demanda sin sobreproducir.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6946" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:46)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Señales, automatización y respuesta en planta</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Andon y reacciones inmediatas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y función: Sistema visual/sonoro que advierte anomalías en la producción para reacción inmediata. No garantiza resolución, pero alerta para priorizar intervención.</div>
+                  <div class="content-text">Formas de respuesta: Empoderamiento del operario para acciones rápidas. Solicitud de ayuda, parada controlada o acción de soporte según criticidad (ej. farmacéutica).</div>
+                  <div class="content-text">Integración con IA y fábricas inteligentes: Sistemas Andon actuales pueden conectarse a IA para detección y avisos automáticos.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6206" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:43:26)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Autonomatión y Jidoka</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Autonomatión (autonomización): Máquina detecta anomalía y detiene o avisa; obliga a concentrar esfuerzos humanos en la causa. No resuelve por sí sola, pero evita que el defecto progrese.</div>
+                  <div class="content-text">Jidoka (no pasar defectos): Principio de detener el proceso ante defectos para corregir y evitar propagación. Aplicable en procesos críticos, envases, farmacéutica y sectores con riesgo de mezcla o contaminación.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6601" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Consideraciones finales y prácticas docentes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Integración de herramientas y recomendaciones prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">No aplicar una sola herramienta en aislamiento ni esperar resultados inmediatos: Plan de trabajo, acciones sostenidas y seguimiento son necesarios para resultados reales.</div>
+                  <div class="content-text">Selección según criticidad: Aplicar 5S en almacenes, Seis Sigma en procesos críticos, células en textiles, SMED en cambios de matriz.</div>
+                  <div class="content-text">Importancia del feedback y la escucha activa: Escuchar propuestas de trabajadores y formalizar canales de retroalimentación para aprovechar talento.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6900" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Consejos profesionales y toma de decisiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Si la empresa no cambia pese a propuestas bien fundamentadas, considerar opciones personales: Para jóvenes practicantes o profesionales en entornos rígidos, evaluar continuidad laboral.</div>
+                  <div class="content-text">Ser profesional: planificación, orden y cumplimiento de estándares: La producción exige linealidad y provisión oportuna de materiales; retrasos por compras o mala planificación afectan toda la cadena productiva.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=6016" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:40:16)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Temas adicionales y cierre de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Sobrecarga, muri y efectos en personas y equipos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos de sobrecargar personas y materiales: La sobrecarga produce tensión, desgaste rápido y errores; la respuesta inicial puede ocultar el problema hasta que el rendimiento cae. Ejemplo: trabajadores forzados a rendimientos extremos duran pocas semanas antes de caer la productividad.</div>
+                  <div class="content-text">Recomendaciones para supervisores: No generar sobrecarga indiscriminada; programar cargas conscientes y niveladas semanalmente. Evitar acumular inventarios o apilaciones excesivas que incrementen riesgo y muda.</div>
+                  <div class="content-text">Consecuencias operativas y de seguridad: Sobrecargar vehículos, plataformas o estibas provoca fallos estructurales y costos adicionales por remolque o reparación.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=7202" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:02)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Incorporación de practicantes y gestión del cambio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Valor de incorporar practicantes y nuevas miradas: Practicantes pueden aportar ideas para mejorar procesos y tiempos; son útiles para estudiar operaciones desde otra perspectiva.</div>
+                  <div class="content-text">Barreras: resistencia al cambio: Si la organización no permite experimentación, los practicantes quedan relegados a tareas menores y se pierde oportunidad de mejora.</div>
+                  <div class="content-text">Flujo de información y material: Sin sincronía entre órdenes y flujo de materiales se generan muda, mura y muri; integrar información reduce desperdicios.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=7453" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:04:13)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Mantenimiento productivo total (OEE) y relación con producción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">OEE como indicador compuesto: Disponibilidad: tiempo productivo, arranques, cambios, averías y espera. Rendimiento: producción real frente a teórica, micro paradas y velocidad reducida. Calidad: proporción de producción buena.</div>
+                  <div class="content-text">Importancia y beneficios del OEE: OEE aporta disponibilidad y confiabilidad que la producción necesita para dejar de preocuparse por fallos constantes. Gestión de equipos y mantenimiento regular evitan paradas no planificadas y aumentan eficiencia.</div>
+                  <div class="content-text">Interdependencia entre Producción y OEE: Producción requiere equipos confiables y disponibles; OEE facilita planificación y estabilidad operativa.</div>
+                  <a href="https://www.youtube.com/watch?v=X2POoeTCDpE&start=7621" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:07:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "Gestión de Operaciones Industriales".toUpperCase();
+      const TITULO_CLASE = "CLASE 17: GESTIÓN DE LA CALIDAD Y MEJORA CONTINUA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
